@@ -16,7 +16,7 @@ To analyze monthly sales trends using SQL aggregation functions.
 ##  Dataset Information
 Table Name: online_sales
 
-###Columns:
+Columns:
 - order_id
 - order_date
 - amount
