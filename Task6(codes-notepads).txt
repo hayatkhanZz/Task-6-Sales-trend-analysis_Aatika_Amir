@@ -1,0 +1,55 @@
+﻿-- TASK 6: Sales Trend Analysis Using Aggregations
+
+-- 1. Create Table
+DROP TABLE IF EXISTS online_sales;
+
+CREATE TABLE online_sales (
+    order_id INTEGER,
+    order_date TEXT,
+    amount REAL,
+    product_id INTEGER
+);
+
+-- 2. Insert Sample Data
+INSERT INTO online_sales VALUES
+(1, '2024-01-05', 250.00, 101),
+(2, '2024-01-15', 400.00, 102),
+(3, '2024-02-10', 300.00, 103),
+(4, '2024-02-20', 150.00, 101),
+(5, '2024-03-05', 500.00, 104),
+(6, '2024-03-18', 350.00, 102),
+(7, '2024-04-02', 600.00, 105),
+(8, '2024-04-15', 700.00, 101),
+(9, '2024-05-01', 200.00, 103),
+(10, '2024-05-25', 450.00, 104);
+
+-- 3. Monthly Revenue & Order Volume
+SELECT 
+    strftime('%Y', order_date) AS year,
+    strftime('%m', order_date) AS month,
+    SUM(amount) AS total_revenue,
+    COUNT(DISTINCT order_id) AS total_orders
+FROM online_sales
+GROUP BY year, month
+ORDER BY year, month;
+
+-- 4. Top 3 Months by Revenue
+SELECT 
+    strftime('%Y', order_date) AS year,
+    strftime('%m', order_date) AS month,
+    SUM(amount) AS total_revenue
+FROM online_sales
+GROUP BY year, month
+ORDER BY total_revenue DESC
+LIMIT 3;
+
+-- 5. Filtered Analysis (Year 2024)
+SELECT 
+    strftime('%Y', order_date) AS year,
+    strftime('%m', order_date) AS month,
+    SUM(amount) AS total_revenue,
+    COUNT(DISTINCT order_id) AS total_orders
+FROM online_sales
+WHERE strftime('%Y', order_date) = '2024'
+GROUP BY year, month
+ORDER BY year, month;
